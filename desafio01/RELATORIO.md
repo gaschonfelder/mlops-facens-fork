@@ -41,9 +41,9 @@ Os dois modelos foram avaliados no mesmo conjunto de teste (04/12/2012 a 31/12/2
 **Pergunta 01:**
 Com suas palavras, quais os dois usos do DVC nesse projeto?
 
-O primeiro uso é versionar os dados: o arquivo `bike.csv` fica no armazenamento do DVC, e o Git guarda só o arquivo `.dvc` com o md5. Assim cada tag (`dados-v1`, `dados-v2`, `dados-v3`) aponta para uma versão exata dos dados. O segundo uso é orquestrar o pipeline em estágios (prepare, split, train, evaluate, plot e compare) pelo `dvc.yaml`. O `dvc repro` só reexecuta o que mudou e o `dvc.lock` registra com quais entradas cada resultado foi gerado, o que deixa o processo reproduzível.
+O primeiro uso é versionar os dados: o bike.csv é grande e não vai para o Git, então o DVC guarda o arquivo no armazenamento dele e o Git guarda só um arquivinho .dvc com o código (md5) daquela versão. Com as tags dados-v1, dados-v2 e dados-v3, consigo voltar para qualquer versão dos dados quando quiser. A segunda foi montar o pipeline em etapas (prepare, split, train, evaluate, plot e compare) no dvc.yaml. Quando rodo o dvc repro, ele só refaz o que mudou, e o dvc.lock guarda o registro do que foi usado, então dá para repetir o mesmo resultado depois.
 
 **Pergunta 02:**
 Com suas palavras, para que serve o MLflow nesse projeto?
 
-O MLflow registra os treinos (parâmetros, métricas e artefatos) e guarda os modelos no Model Registry, com versões numeradas. Os aliases `@champion` e `@challenger` indicam qual versão está em produção e qual está sendo avaliada, e as tags (`decisao`, `motivo`, `previous_champion`) deixam gravada, na própria versão, a decisão de promoção e o motivo dela.
+O MLflow serve para guardar e organizar os modelos. Cada treino fica registrado com suas métricas, e cada modelo novo vira uma versão numerada no Registry (aqui, a versão 5 e a 7). Os nomes @champion e @challenger mostram qual modelo está valendo e qual está sendo testado. Também usei as tags da versão (decisao, motivo e previous_champion) para deixar gravado se o modelo novo foi promovido, por quê, e qual era o champion anterior.
